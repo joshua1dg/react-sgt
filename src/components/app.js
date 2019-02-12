@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 import 'materialize-css/dist/css/materialize.min.css'
 import 'materialize-css/dist/js/materialize.min.js'
 import '../assets/css/app.scss';
@@ -42,9 +43,14 @@ class App extends Component {
 
     getStudentData(){
         //Call server to get student data
-        this.setState({
-            students: studentData
+        axios.get('http://localhost/server/getstudentlist.php').then((response) => {
+            console.log('Server Response: ', response.data.data);
+            this.setState({
+                students: response.data.data
+            });
         });
+
+
     };
 
 
