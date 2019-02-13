@@ -5,8 +5,7 @@ import 'materialize-css/dist/js/materialize.min.js'
 import '../assets/css/app.scss';
 import AddStudent from './add_student'
 import Table from './table';
-import studentData from "../data/get_all_students";
-import {randomString} from '../helpers/index';
+import {formatPostData} from '../helpers/index';
 
 
 class App extends Component {
@@ -33,23 +32,27 @@ class App extends Component {
         }
     }
 
-    addStudent = (student) => {
-        student.id = randomString();
+    addStudent = async (student) => {
+        const formattedStudent = formatPostData(student);
 
-        this.setState({
-            students: [...this.state.students, student]
-        });
+        console.log('Add Student: ', formattedStudent);
+
+        const resp = await axios.post('http://localhost/server/createstudent.php', formattedStudent);
+
+        console.log('Add student response: ', resp);
     };
 
     async getStudentData(){
         //Call server to get student data
 
-        const resp = await axios.get('http://localhost/server/getstudentlist.php');
-        console.log('Resp: ', resp)
+        const response = await axios.get('http://localhost/server/getstudentlist.php');
+        console.log('Get List Resp: ', response);
 
-        this.setState({
-            students: resp.data.data
-        });
+        if(response.data.success){
+            this.setState({
+                students: resp.data.data
+            });    
+        };
 
         // axios.get('http://localhost/server/getstudentlist.php').then((response) => {
         //     console.log('Server Response: ', response.data.data);

@@ -5,7 +5,9 @@ class AddStudent extends Component {
     state = {
         name: '',
         course: '',
-        grade: ''
+        grade: '',
+        instructor: '',
+        notes: '',
     };
 
     handleKeyPress = (event) => {
@@ -25,12 +27,14 @@ class AddStudent extends Component {
       this.setState({
           name: '',
           course: '',
-          grade: ''
+          grade: '',
+          instructor: '',
+          notes: '',
       });
     };
 
     render(){
-        const{name, course, grade} = this.state;
+        const{name, course, grade, instructor, notes} = this.state;
 
         return(
             <form onSubmit={this.handleSubmit}>
@@ -53,6 +57,18 @@ class AddStudent extends Component {
                     </div>
                 </div>
                 <div className="row">
+                    <div className="col input-field s10 offset-s1">
+                        <input onChange={this.handleKeyPress} name='instructor' id='instructor' type="text" value={instructor} autoComplete='off'/>
+                        <label htmlFor="instructor">Instructor</label>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col input-field s10 offset-s1">
+                        <input onChange={this.handleKeyPress} name='notes' id='notes' type="text" value={notes} autoComplete='off'/>
+                        <label htmlFor="notes">Notes</label>
+                    </div>
+                </div>
+                <div className="row">
                     <div className="col s6 center">
                         <button type='button' onClick={this.resetForm} className='btn red darken-2 waves-effect waves-light'>Clear</button>
                     </div>
@@ -60,6 +76,7 @@ class AddStudent extends Component {
                         <button className='btn green darken-2 center'>Add</button>
                     </div>
                 </div>
+                
             </form>
         );
     }
