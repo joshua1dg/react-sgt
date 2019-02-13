@@ -5,12 +5,12 @@ const Table = (props) => {
     const {studentList} = props;
     let studentRows = [];
 
-    if (Array.isArray(studentList.length)){
+    if (Array.isArray(studentList) && studentList.length){
         studentRows = props.studentList.map( (student) => {
             return (
                 <StudentRow delete={props.deleteStudent} key={student.id} student={student}/>
             );
-        })
+        });
     } else{
         studentRows.push(
             <tr key='no-data'>

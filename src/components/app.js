@@ -17,29 +17,20 @@ class App extends Component {
         this.getStudentData();
     }
 
-    deleteStudent = (id) => {
-        const indexToDelete = this.state.students.findIndex((student) => {
-            return student.id === id;
-        });
+    deleteStudent = async (id) => {
+        const formattedId = formatPostData({id: id});
+        await axios.post('/server/deletestudent.php', formattedId);
 
-        if(indexToDelete >= 0){
-          const tempStudents = this.state.students.slice();
-          tempStudents.splice(indexToDelete, 1);
-
-          this.setState({
-              students: tempStudents
-          })
-        }
+        this.getStudentData();
     }
 
     addStudent = async (student) => {
         const formattedStudent = formatPostData(student);
 
-        console.log('Add Student: ', formattedStudent);
+        await axios.post('/server/createstudent.php', formattedStudent);
 
-        const resp = await axios.post('http://localhost/server/createstudent.php', formattedStudent);
+        this.getStudentData();
 
-        console.log('Add student response: ', resp);
     };
 
     async getStudentData(){
@@ -50,10 +41,13 @@ class App extends Component {
 
         if(response.data.success){
             this.setState({
-                students: resp.data.data
-            });    
-        };
-
+                students: response.data.data
+            });
+        } else{
+            this.setState({
+                students: response.data.data || []
+            })
+        }
         // axios.get('http://localhost/server/getstudentlist.php').then((response) => {
         //     console.log('Server Response: ', response.data.data);
         //     this.setState({
