@@ -7,7 +7,7 @@ import { formatPostData } from '../helpers';
 
 class Table extends Component{
     state = {
-        students: []
+        students: null
     };
 
     componentDidMount(){
@@ -44,6 +44,14 @@ class Table extends Component{
                     <StudentRow delete={this.deleteStudent} key={student.id} student={student}/>
                 );
             });
+        } else if (students === null){
+            studentRows.push(
+                <tr key='no-data'>
+                    <td colSpan='4'>
+                        <h4 className='center grey-text'>Student Data Loading...</h4>
+                    </td>
+                </tr>
+            );
         } else{
             studentRows.push(
                 <tr key='no-data'>
